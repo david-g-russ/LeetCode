@@ -19,31 +19,28 @@ namespace Problem13
             s = "MCMXCIV";
             Console.WriteLine(RomanToInt(s));
         }
-        static int RomanToInt(string s)
+        static int RomanToInt(string roman)
         {
-            int temp = 0;
-            for (int i = 0; i < s.Length; i++)
-            {
-                if (s[i] == 'M' && i == 0 || s[i] == 'M' && s[i - 1] != 'C')
+                var endNum = 0;
+                var romanCharsNum = new Dictionary<char, int>()
                 {
-                    temp += 1000;
-                }
-                else if (s[i] == 'D' && i == 0 || s[i] == 'D' && s[i - 1] != 'C')
+                    { 'I', 1 },
+                    { 'V', 5 },
+                    { 'X', 10 },
+                    { 'L', 50 },
+                    { 'C', 100 },
+                    { 'D', 500 },
+                    { 'M', 1000 },
+                };
+
+                for (var i = 0; i < roman.Length - 1; i++)
                 {
-                    temp += 500;
+                    if (romanCharsNum[roman[i]] >= romanCharsNum[roman[i + 1]]) endNum += romanCharsNum[roman[i]];
+                    else endNum -= romanCharsNum[roman[i]];
                 }
-                else if (s[i] == 'C' && i == 0 || s[i] == 'C' && s[i - 1] != 'X')
-                {
-                    temp += 100;
-                }
-                else if (s[i] == 'I')
-                {
-                    if (i == s.Length - 1 || s[i + 1] == 'I') temp += 1;
-                    else if (s[i + 1] == 'V') temp += 4;
-                    else if (s[i + 1] == 'X') temp += 9;
-                }
-                }
-                }
+                endNum += romanCharsNum[roman[roman.Length - 1]];
+
+                return endNum;
             }
         }
     }
